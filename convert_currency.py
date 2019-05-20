@@ -6,8 +6,13 @@ from googletrans import Translator
 
 
 def fcur(currency, tril=0, bil=0, mil=0, thous=0):
+  """
+  Convert forreign currency to full_width japanese yen
+  """
+  
   translator = Translator()
-  currency = translator.translate(currency, dest='ja').text　# translate to ja
+  currency = translator.translate(currency, dest='ja').text # translate to ja
+  translated = mojimoji.han_to_zen(currency)
   
   currency = re.sub(r'ドル', ' USD', currency) # replace with currency code
   currency = re.sub(r'ルーブル', ' RUB', currency)
@@ -37,4 +42,7 @@ def fcur(currency, tril=0, bil=0, mil=0, thous=0):
   table = str.maketrans('','',',') # get rid of comma
   yen = yen.translate(table)
   yen_fullwidth = mojimoji.han_to_zen(yen) # convert to fullwidth
-  return yen_fullwidth, date
+  return translated, yen_fullwidth, date
+
+
+fcur(input())
